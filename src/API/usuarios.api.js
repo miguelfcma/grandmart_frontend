@@ -1,0 +1,39 @@
+import axios from "axios";
+
+const API_BASE_URL = "http://localhost:4000/usuarios";
+
+export const getUsuariosRequest = async () => {
+  try {
+    const response = await axios.get(API_BASE_URL);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const createUsuarioRequest = async (usuario) => {
+  try {
+    const response = await axios.post(API_BASE_URL, usuario);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const updateUsuarioRequest = async (id, usuario) => {
+  try {
+    const response = await axios.put(`${API_BASE_URL}/${id}`, usuario);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const deleteUsuarioRequest = async (id) => {
+  try {
+    const response = await axios.delete(`${API_BASE_URL}/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+};
