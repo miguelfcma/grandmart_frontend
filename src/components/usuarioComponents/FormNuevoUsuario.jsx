@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { createUsuarioRequest } from "../API/usuarios.api";
+import { createUsuarioRequest } from "../../API/usuarios.api";
 
 const FormularioNuevoUsuario = () => {
   const [nombre, setNombre] = useState("");
@@ -43,7 +43,6 @@ const FormularioNuevoUsuario = () => {
       const response = await createUsuarioRequest(formData);
 
       console.log(response);
-
     } catch (error) {
       console.error(error);
     }
@@ -51,7 +50,6 @@ const FormularioNuevoUsuario = () => {
 
   return (
     <>
-     
       <form onSubmit={handleSubmit}>
         <label htmlFor="nombre">
           Nombre:
@@ -105,7 +103,9 @@ const FormularioNuevoUsuario = () => {
             onChange={(event) => setSexo(event.target.value)}
             required
           >
-            <option value="">Selecciona una opción</option>
+            <option value="" defaultValue>
+              Selecciona una opción
+            </option>
             <option value="M">Masculino</option>
             <option value="F">Femenino</option>
           </select>
@@ -152,7 +152,9 @@ const FormularioNuevoUsuario = () => {
             onChange={(event) => setTipoUsuario(event.target.value === "true")}
             required
           >
-            <option value="">Selecciona una opción</option>
+            <option value="" defaultValue>
+              Selecciona una opción
+            </option>
             <option value="true">Administrador</option>
             <option value="false">Usuario regular</option>
           </select>
