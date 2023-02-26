@@ -1,25 +1,27 @@
 import { useEffect, useState } from "react";
-import { getUsuariosRequest } from "../../API/usuarios.api";
 import { CardUsuario } from "./CardUsuario";
-
+import "./ListUsuarios.css";
+import { useUsuarios } from "./UsuariosContext/UsuarioProvider";
 export function ListUsuarios() {
-  const [usuarios, setUsuarios] = useState([]);
-
+  const { usuarios, loadUsuarios } = useUsuarios();
   //Apenas entre a esta pagina se ejecutara esta función
   useEffect(() => {
-    async function loadUsuarios() {
-      const response = await getUsuariosRequest();
-      setUsuarios(response);
-    }
     loadUsuarios();
   }, []);
+  function renderMain() {
+    {
+      if (usuarios.length == 0) {
+        return <h1>No hay usuarios registrados</h1>;
+      } else {
+        return usuarios.map((usuario) => (
+          <CardUsuario usuario={usuario} key={usuario.id} />
+        ));
+      }
+    }
+  }
   return (
     <>
-      <ul>
-      {usuarios.map((usuario) => (
-        <CardUsuario key={usuario.id} usuario={usuario} />
-      ))}
-    </ul>
+      <div className="list-usuarios">{renderMain()}</div>
     </>
   );
 }

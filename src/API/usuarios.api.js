@@ -12,13 +12,14 @@ export const getUsuariosRequest = async () => {
 };
 
 export const createUsuarioRequest = async (usuario) => {
-  try {
-    const response = await axios.post(API_BASE_URL, usuario);
-    return response.data;
-  } catch (error) {
-    console.error(error);
-  }
-};
+    try {
+      const response = await axios.post(API_BASE_URL, usuario);
+      return response;
+    } catch (error) {
+      console.error(error);
+      return error;
+    }
+  };
 
 export const updateUsuarioRequest = async (id, usuario) => {
   try {

@@ -1,13 +1,15 @@
+import "./App.css";
+import { MyRoutes } from "./routes/routes";
+import { UsuarioContextProvider } from "./components/usuarioComponents/UsuariosContext/UsuarioProvider";
 
-import './App.css'
-import { MyRoutes } from './routes/routes'
 function App() {
-
   return (
-    <div className="App">
-      <MyRoutes/>
-    </div>
-  )
+    <UsuarioContextProvider>
+      <div className="App">
+        <MyRoutes />
+      </div>
+    </UsuarioContextProvider>
+  );
 }
 
-export default App
+export default App;

@@ -1,7 +1,12 @@
 import React, { useState } from "react";
 import { createUsuarioRequest } from "../../API/usuarios.api";
+import "./FormNuevoUsuario.css";
+import { useUsuarios } from "./UsuariosContext/UsuarioProvider";
 
-const FormularioNuevoUsuario = () => {
+
+const FormularioNuevoUsuario = ({ onSubmit }) => {
+  const {createUsuario} = useUsuarios();
+
   const [nombre, setNombre] = useState("");
   const [apellidoPaterno, setApellidoPaterno] = useState("");
   const [apellidoMaterno, setApellidoMaterno] = useState("");
@@ -10,23 +15,11 @@ const FormularioNuevoUsuario = () => {
   const [fechaNacimiento, setFechaNacimiento] = useState("");
   const [telefono, setTelefono] = useState("");
   const [password, setPassword] = useState("");
-  const [tipoUsuario, setTipoUsuario] = useState(false);
+  const [tipoUsuario, setTipoUsuario] = useState("");
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    // Aquí podrías enviar los datos a través de una API o realizar otra acción
-    // en función de tus necesidades
-    console.log({
-      nombre,
-      apellidoPaterno,
-      apellidoMaterno,
-      email,
-      sexo,
-      fechaNacimiento,
-      telefono,
-      password,
-      tipoUsuario,
-    });
+
     const formData = {
       nombre: nombre,
       apellidoPaterno: apellidoPaterno,
@@ -40,9 +33,22 @@ const FormularioNuevoUsuario = () => {
     };
 
     try {
-      const response = await createUsuarioRequest(formData);
+      const status = await createUsuario(formData);
 
-      console.log(response);
+      if (status !==false) {
+        setNombre("");
+        setApellidoPaterno("");
+        setApellidoMaterno("");
+        setEmail("");
+        setSexo("");
+        setFechaNacimiento("");
+        setTelefono("");
+        setPassword("");
+        setTipoUsuario("");
+        onSubmit();
+      } else {
+        window.alert("Ha ocurrido un error al crear el usuario. Inténtelo de nuevo más tarde.");
+      }
     } catch (error) {
       console.error(error);
     }
