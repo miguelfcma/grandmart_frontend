@@ -54,8 +54,8 @@ export const FormUsuario = ({ onSubmit, initialUsuario =null }) => {
       } else {
         status = await updateUsuario(initialUsuario.id, formData);
       }
-
-      if (status !== false) {
+      console.log(status)
+      if (status == true) {
         setNombre("");
         setApellidoPaterno("");
         setApellidoMaterno("");

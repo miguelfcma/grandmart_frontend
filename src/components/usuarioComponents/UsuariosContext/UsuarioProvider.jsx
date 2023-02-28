@@ -47,7 +47,7 @@ export const UsuarioContextProvider = ({ children }) => {
 
       if (response.status == 201) {
         setUsuarios([...usuarios, usuario]);
-
+        return true;
       } else {
         return false;
       }
@@ -60,14 +60,32 @@ export const UsuarioContextProvider = ({ children }) => {
     try {
  
       const response = await updateUsuarioRequest(id, usuario);
-      const index = usuarios.findIndex((u) => u.id === id);
-      setUsuarios(usuarios.filter((usuario) => usuario.id !== id));
-  
+      console.log(response)
+      if (response.status == 200) {
+        await refreshUsuarios(); // Llama a la función refreshUsuarios después de actualizar el usuario.
+        return true;
+      } else {
+        return false;
+      }
       
     } catch (error) {
       console.error(error);
     }
   };
+
+  const refreshUsuarios = async () => { // Agrega la función refreshUsuarios.
+    try {
+      const response = await getUsuariosRequest();
+      if (response === undefined) {
+        throw new Error("No se pudo obtener la lista de usuarios");
+      }
+      setUsuarios(response);
+    } catch (error) {
+      console.error(error);
+    }
+
+
+  }
 
   return (
     <UsuarioContext.Provider

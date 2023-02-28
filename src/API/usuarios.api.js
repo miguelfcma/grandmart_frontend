@@ -24,7 +24,7 @@ export const createUsuarioRequest = async (usuario) => {
 export const updateUsuarioRequest = async (id, usuario) => {
   try {
     const response = await axios.put(`${API_BASE_URL}/${id}`, usuario);
-    return response.data;
+    return response;
   } catch (error) {
     console.error(error);
   }
