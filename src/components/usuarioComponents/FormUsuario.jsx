@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { createUsuarioRequest } from "../../API/usuarios.api";
-import "./FormNuevoUsuario.css";
+import "./FormUsuario.css";
 import { useUsuarios } from "./UsuariosContext/UsuarioProvider";
 
 
-const FormularioNuevoUsuario = ({ onSubmit }) => {
-  const {createUsuario} = useUsuarios();
+export const FormUsuario = ({ onSubmit, initialUsuario =null }) => {
+  const {createUsuario, updateUsuario} = useUsuarios();
 
   const [nombre, setNombre] = useState("");
   const [apellidoPaterno, setApellidoPaterno] = useState("");
@@ -16,6 +16,20 @@ const FormularioNuevoUsuario = ({ onSubmit }) => {
   const [telefono, setTelefono] = useState("");
   const [password, setPassword] = useState("");
   const [tipoUsuario, setTipoUsuario] = useState("");
+
+  useEffect(() => {
+    if (initialUsuario !== null) {
+      setNombre(initialUsuario.nombre);
+      setApellidoPaterno(initialUsuario.apellidoPaterno);
+      setApellidoMaterno(initialUsuario.apellidoMaterno);
+      setEmail(initialUsuario.email);
+      setSexo(initialUsuario.sexo);
+      setFechaNacimiento(initialUsuario.fechaNacimiento);
+      setTelefono(initialUsuario.telefono);
+      setPassword(initialUsuario.password);
+      setTipoUsuario(initialUsuario.tipoUsuario);
+    }
+  }, [initialUsuario]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -33,9 +47,15 @@ const FormularioNuevoUsuario = ({ onSubmit }) => {
     };
 
     try {
-      const status = await createUsuario(formData);
+      let status;
 
-      if (status !==false) {
+      if (initialUsuario === null) {
+        status = await createUsuario(formData);
+      } else {
+        status = await updateUsuario(initialUsuario.id, formData);
+      }
+
+      if (status !== false) {
         setNombre("");
         setApellidoPaterno("");
         setApellidoMaterno("");
@@ -47,7 +67,7 @@ const FormularioNuevoUsuario = ({ onSubmit }) => {
         setTipoUsuario("");
         onSubmit();
       } else {
-        window.alert("Ha ocurrido un error al crear el usuario. Inténtelo de nuevo más tarde.");
+        window.alert("Ha ocurrido un error al procesar la solicitud. Inténtelo de nuevo más tarde.");
       }
     } catch (error) {
       console.error(error);
@@ -98,6 +118,7 @@ const FormularioNuevoUsuario = ({ onSubmit }) => {
             value={email}
             onChange={(event) => setEmail(event.target.value)}
             required
+            disabled={initialUsuario}
           />
         </label>
         <br />
@@ -172,4 +193,4 @@ const FormularioNuevoUsuario = ({ onSubmit }) => {
   );
 };
 
-export default FormularioNuevoUsuario;
+

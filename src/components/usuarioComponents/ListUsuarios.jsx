@@ -9,16 +9,15 @@ export function ListUsuarios() {
     loadUsuarios();
   }, []);
   function renderMain() {
-    {
-      if (usuarios.length == 0) {
-        return <h1>No hay usuarios registrados</h1>;
-      } else {
-        return usuarios.map((usuario) => (
-          <CardUsuario usuario={usuario} key={usuario.id} />
-        ));
-      }
+    if (usuarios.length === 0) {
+      return <h1>No hay usuarios registrados</h1>;
+    } else {
+      return usuarios.map((usuario) => (
+        <CardUsuario key={usuario.id} usuario={usuario} />
+      ));
     }
   }
+  
   return (
     <>
       <div className="list-usuarios">{renderMain()}</div>

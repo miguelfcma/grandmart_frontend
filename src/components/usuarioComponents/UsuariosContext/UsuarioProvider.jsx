@@ -44,8 +44,7 @@ export const UsuarioContextProvider = ({ children }) => {
   const createUsuario = async (usuario) => {
     try {
       const response = await createUsuarioRequest(usuario);
-      console.log(response);
-      console.log("Hola en porvider");
+
       if (response.status == 201) {
         setUsuarios([...usuarios, usuario]);
 
@@ -59,8 +58,12 @@ export const UsuarioContextProvider = ({ children }) => {
 
   const updateUsuario = async (id, usuario) => {
     try {
+ 
       const response = await updateUsuarioRequest(id, usuario);
-      console.log(response);
+      const index = usuarios.findIndex((u) => u.id === id);
+      setUsuarios(usuarios.filter((usuario) => usuario.id !== id));
+  
+      
     } catch (error) {
       console.error(error);
     }
