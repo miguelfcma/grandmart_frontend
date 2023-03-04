@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_BASE_URL = "http://localhost:4000/usuarios";
+const API_BASE_URL = "https://servergrandmart-production.up.railway.app/";
 
 export const getUsuariosRequest = async () => {
   try {

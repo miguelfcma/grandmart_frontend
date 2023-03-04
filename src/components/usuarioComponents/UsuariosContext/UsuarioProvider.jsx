@@ -46,7 +46,7 @@ export const UsuarioContextProvider = ({ children }) => {
       const response = await createUsuarioRequest(usuario);
 
       if (response.status == 201) {
-        setUsuarios([...usuarios, usuario]);
+        await refreshUsuarios(); // Llama a la función refreshUsuarios después de actualizar el usuario.
         return true;
       } else {
         return false;

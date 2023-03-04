@@ -2,23 +2,19 @@ import { useState } from "react";
 import { createImagenRequest } from "../API/imagenUsuario.api";
 
 function ImageForm() {
-  const [nombre, setNombre] = useState("");
-  const [descripcion, setDescripcion] = useState("");
   const [archivo, setArchivo] = useState(null);
   const [error, setError] = useState("");
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    if (!nombre || !archivo) {
-      setError("El nombre y el archivo son campos obligatorios");
+    if (!archivo) {
+      setError("El archivo es obligatorio");
       return;
     }
 
     try {
       const imagen = {
-        nombre,
-        descripcion,
         archivo,
       };
 
@@ -27,8 +23,6 @@ function ImageForm() {
       console.log("Imagen creada:", response.data);
 
       // Reiniciar los valores del formulario después de enviar la imagen.
-      setNombre("");
-      setDescripcion("");
       setArchivo(null);
       setError("");
     } catch (error) {
@@ -43,36 +37,38 @@ function ImageForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      {error && <div>{error}</div>}
-      <div>
-        <label htmlFor="nombre">Nombre:</label>
-        <input
-          id="nombre"
-          type="text"
-          value={nombre}
-          onChange={(event) => setNombre(event.target.value)}
-        />
-      </div>
-      <div>
-        <label htmlFor="descripcion">Descripción:</label>
-        <textarea
-          id="descripcion"
-          value={descripcion}
-          onChange={(event) => setDescripcion(event.target.value)}
-        />
-      </div>
-      <div>
-        <label htmlFor="archivo">Archivo:</label>
-        <input
-          id="archivo"
-          type="file"
-          accept="image/*"
-          onChange={handleFileChange}
-        />
-      </div>
-      <button type="submit">Crear imagen</button>
-    </form>
+    <>
+      <form onSubmit={handleSubmit}>
+        {error && <div>{error}</div>}
+        <div>
+          <label htmlFor="archivo">Archivo:</label>
+          <input
+            id="archivo"
+            type="file"
+            accept="image/*"
+            onChange={handleFileChange}
+          />
+        </div>
+        <button type="submit">Crear imagen</button>
+      </form>
+      {archivo && (
+        <div>
+          <img
+            src={URL.createObjectURL(archivo)}
+            alt="Imagen seleccionada"
+            style={{ width: "300px", height: "300px" }}
+          />
+        </div>
+      )}
+
+<img
+  src={"http://127.0.0.1:4000/public/avatars/55cad295-6976-4046-a40d-9870c01ef2e8.jpg"}
+
+  alt="Imagen seleccionada"
+  style={{ width: "300px", height: "300px" }}
+/>
+
+    </>
   );
 }
 
