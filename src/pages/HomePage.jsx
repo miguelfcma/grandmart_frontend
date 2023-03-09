@@ -5,6 +5,7 @@ export function HomePage() {
     <>
       <Navbar />
       Home Page
+      
       <Content/>
     </>
   );
