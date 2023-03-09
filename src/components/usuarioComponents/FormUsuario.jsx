@@ -4,7 +4,7 @@ import "./FormUsuario.css";
 import { useUsuarios } from "./UsuariosContext/UsuarioProvider";
 
 
-export const FormUsuario = ({ onSubmit, initialUsuario =null }) => {
+export function FormUsuario  ({ onSubmit, initialUsuario =null })  {
   const {createUsuario, updateUsuario} = useUsuarios();
 
   const [nombre, setNombre] = useState("");

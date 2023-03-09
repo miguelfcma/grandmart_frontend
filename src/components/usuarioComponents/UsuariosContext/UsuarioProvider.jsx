@@ -5,6 +5,7 @@ import {
   createUsuarioRequest,
   deleteUsuarioRequest,
   updateUsuarioRequest,
+  getUsuarioLoginRequest,
 } from "../../../API/usuarios.api";
 
 import { UsuarioContext } from "./UsuarioContext";
@@ -58,22 +59,21 @@ export const UsuarioContextProvider = ({ children }) => {
 
   const updateUsuario = async (id, usuario) => {
     try {
- 
       const response = await updateUsuarioRequest(id, usuario);
-      console.log(response)
+      console.log(response);
       if (response.status == 200) {
         await refreshUsuarios(); // Llama a la función refreshUsuarios después de actualizar el usuario.
         return true;
       } else {
         return false;
       }
-      
     } catch (error) {
       console.error(error);
     }
   };
 
-  const refreshUsuarios = async () => { // Agrega la función refreshUsuarios.
+  const refreshUsuarios = async () => {
+    // Agrega la función refreshUsuarios.
     try {
       const response = await getUsuariosRequest();
       if (response === undefined) {
@@ -83,9 +83,23 @@ export const UsuarioContextProvider = ({ children }) => {
     } catch (error) {
       console.error(error);
     }
+  };
 
+  const loginUsuario = async (usuario) => {
+    try {
+      const response = await getUsuarioLoginRequest(usuario);
 
-  }
+      if (response.status == 200) {
+        return response.data;
+      } else {
+        
+        return null;
+      }
+      return response;
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <UsuarioContext.Provider
@@ -95,6 +109,7 @@ export const UsuarioContextProvider = ({ children }) => {
         deleteUsuario,
         createUsuario,
         updateUsuario,
+        loginUsuario,
       }}
     >
       {children}
